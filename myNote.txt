@@ -1,0 +1,35 @@
+运行gcc把c.c编译成xc,即v9-cpu的编译器；
+运行gcc把em.c编译成xem,即v9-cpu的汇编解释器；
+则其他.c(编程用例：funcall.c,os1.c等)程序都是用xc编译，用xem执行。
+一般.c文件被xc编译用法：
+   ./xc -o emhello -Iroot/lib root/usr/emhello.c
+   ./xc -o funcall -Iroot/lib root/usr/funcall.c
+xem运行：./xem funcall
+funcall.c文件的编译运行过程指令已写在build-funcall.sh文件里，直接运行即可
+.sh文件的运行：(1)chmod +x a.sh  --a.sh是文件名
+            or  (2)./a.sh   --位于当前目录下，a.sh是文件名
+            or  (3)/绝对路径/a.sh  --不是位于当前目录时，用绝对路径
+build-funcall.sh文件注解：
+    rm -f 文件名    ----删除列出的文件，-f表明忽略不存在的文件
+    下面是编译运行
+c.c用法：
+  c [-v] [-s] [-Ipath] [-o exefile] file ...
+    -v:详细输出
+    -s:打印源代码和生成的代码
+    -I：被引用(include)文件的路径,一般是root/lib
+
+第二周周一课：
+v9-cpu不用bootloader(?), push/pop时,sp +/- = 8(8是因为统一int/double字节数)
+ECF：异常控制流
+为什么需要中断，异常，和系统调用
+异常：保证系统的安全可靠
+系统调用：保证安全，应用程序不能直接访问内核程序和数据
+
+内核态与用户态：
+  内核态：修改中断向量表，设置timer，设置使能中断
+  用户态：输入输出
+cpu怎么知道系统处于什么态：CS寄存器的最低两位标注了特权级大小。
+v9-cpu用user来标注是内核态还是用户态
+
+第二周周三lab1:
+nonmaskable interrupts:不可屏蔽中断，例如：reset
